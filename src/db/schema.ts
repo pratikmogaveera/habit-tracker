@@ -20,11 +20,10 @@ export const users = pgTable(
 export const habits = pgTable("habits", {
   id: serial("id").primaryKey(),
   userId: integer("user_id").notNull(),
-  name: text("name").notNull(),
   description: text("description"),
   habitType: habitTypeEnum("habit_type").notNull(),
+  startDate: date("start_date").notNull(),
   targetDays: integer("target_days"),
-  startDate: date("start_date"),
   endDate: date("end_date"),
   isActive: boolean("is_active").notNull(),
   createdAt: timestamp("created_at").defaultNow(),

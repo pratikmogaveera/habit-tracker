@@ -1,10 +1,12 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { NewUserFormSchema } from "@/lib/forms";
+import { insertNewUserMutation } from "@/lib/queryFunctions";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { Loader2 } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -20,22 +22,8 @@ const NewUserForm = () => {
   const queryClient = useQueryClient();
 
   const createUserMutation = useMutation({
-    mutationFn: async (newUser: z.infer<typeof NewUserFormSchema>) => {
-      const response = await fetch("/api/users", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(newUser),
-      });
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || "Failed to add user.");
-      }
-
-      return response.json();
-    },
-    onSuccess: (data) => {
-      alert(data.message || "User added successfully!");
+    mutationFn: insertNewUserMutation,
+    onSuccess: () => {
       form.reset(); // Reset the form after success
       queryClient.invalidateQueries({
         queryKey: ["users"],
@@ -44,7 +32,6 @@ const NewUserForm = () => {
     },
     onError: (error) => {
       console.error("Error adding user:", error.message);
-      alert(error.message || "An error occurred. Please try again.");
     },
   });
 
@@ -53,10 +40,10 @@ const NewUserForm = () => {
   };
 
   return (
-    <div className="p-4 w-full min-w-[300px] md:max-w-[300px] rounded-xl border text-lg">
+    <div className="p-4 w-full md:max-w-[320px] rounded-xl border text-lg">
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-          <h2>Insert New User:</h2>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+          <h2 className="text-xl font-semibold">Insert New User:</h2>
           <FormField
             control={form.control}
             name="name"
@@ -66,7 +53,6 @@ const NewUserForm = () => {
                 <FormControl>
                   <Input placeholder="John Doe" {...field} />
                 </FormControl>
-                <FormDescription>This is your public display name.</FormDescription>
                 <FormMessage />
               </FormItem>
             )}
@@ -85,8 +71,15 @@ const NewUserForm = () => {
             )}
           />
 
-          <Button type="submit" disabled={createUserMutation.isPending} className="w-full font-semibold">
-            {createUserMutation.isPending ? "Creating new user..." : "Submit"}
+          <Button type="submit" disabled={createUserMutation.isPending} className="w-full font-medium leading-none">
+            {createUserMutation.isPending ? (
+              <>
+                <Loader2 className="animate-spin h-5 w-5" />
+                Creating new user...
+              </>
+            ) : (
+              "Submit"
+            )}
           </Button>
         </form>
       </Form>
