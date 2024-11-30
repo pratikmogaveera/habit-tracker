@@ -1,4 +1,5 @@
-import { NewUserType, insertUser } from "@/db/queries";
+import { insertUser } from "@/db/queries";
+import { NewUserType } from "@/db/types";
 
 async function main() {
   const newUser: NewUserType = {

@@ -1,4 +1,5 @@
-import { pgTable, serial, text, timestamp, uniqueIndex } from "drizzle-orm/pg-core";
+import { boolean, date, integer, pgTable, serial, text, timestamp, uniqueIndex } from "drizzle-orm/pg-core";
+import { habitTypeEnum } from "./types";
 
 export const users = pgTable(
   "users",
@@ -7,7 +8,7 @@ export const users = pgTable(
     name: text("name").notNull(),
     email: text("email").notNull(),
     image: text("image"),
-    createdAt: timestamp("createdAt").defaultNow(),
+    createdAt: timestamp("created_at").defaultNow(),
   },
   (users) => {
     return {
@@ -15,3 +16,16 @@ export const users = pgTable(
     };
   }
 );
+
+export const habits = pgTable("habits", {
+  id: serial("id").primaryKey(),
+  userId: integer("user_id").notNull(),
+  name: text("name").notNull(),
+  description: text("description"),
+  habitType: habitTypeEnum("habit_type").notNull(),
+  targetDays: integer("target_days"),
+  startDate: date("start_date"),
+  endDate: date("end_date"),
+  isActive: boolean("is_active").notNull(),
+  createdAt: timestamp("created_at").defaultNow(),
+});
