@@ -1,11 +1,12 @@
 CREATE TABLE IF NOT EXISTS "habits" (
 	"id" serial PRIMARY KEY NOT NULL,
+	"title" text NOT NULL,
 	"user_id" integer NOT NULL,
-	"name" text NOT NULL,
 	"description" text,
 	"habit_type" "habit_type" NOT NULL,
+	"goal_type" "goal_type" NOT NULL,
+	"start_date" date NOT NULL,
 	"target_days" integer,
-	"start_date" date,
 	"end_date" date,
 	"is_active" boolean NOT NULL,
 	"created_at" timestamp DEFAULT now()

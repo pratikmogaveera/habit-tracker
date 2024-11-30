@@ -1,5 +1,5 @@
 {
-  "id": "63cdc9d5-33e9-47a2-80eb-7fe67d459c38",
+  "id": "b0aed55e-dbd3-4b95-b4b9-02bca096953b",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -14,15 +14,15 @@
           "primaryKey": true,
           "notNull": true
         },
-        "user_id": {
-          "name": "user_id",
-          "type": "integer",
+        "title": {
+          "name": "title",
+          "type": "text",
           "primaryKey": false,
           "notNull": true
         },
-        "name": {
-          "name": "name",
-          "type": "text",
+        "user_id": {
+          "name": "user_id",
+          "type": "integer",
           "primaryKey": false,
           "notNull": true
         },
@@ -39,15 +39,22 @@
           "primaryKey": false,
           "notNull": true
         },
-        "target_days": {
-          "name": "target_days",
-          "type": "integer",
+        "goal_type": {
+          "name": "goal_type",
+          "type": "goal_type",
+          "typeSchema": "public",
           "primaryKey": false,
-          "notNull": false
+          "notNull": true
         },
         "start_date": {
           "name": "start_date",
           "type": "date",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "target_days": {
+          "name": "target_days",
+          "type": "integer",
           "primaryKey": false,
           "notNull": false
         },

@@ -30,14 +30,26 @@ export const insertNewUserMutation = async (newUser: z.infer<typeof NewUserFormS
   return response.json();
 };
 
+export const getAllHabitsQuery = async () => {
+  const response = await fetch("/api/habits", {
+    method: "GET",
+    headers: { "Content-Type": "application/json" },
+  });
+
+  if (!response.ok) {
+    const errorData = await response.json();
+    throw new Error(errorData.error || "Failed to fetch habits.");
+  }
+
+  return response.json();
+};
+
 export const insertNewHabitMutation = async (newHabit: z.infer<typeof NewHabitFormSchema>) => {
   const response = await fetch("/api/habits", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(newHabit),
   });
-
-  console.log(newHabit);
 
   if (!response.ok) {
     const errorData = await response.json();

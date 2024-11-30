@@ -1,5 +1,5 @@
 import { boolean, date, integer, pgTable, serial, text, timestamp, uniqueIndex } from "drizzle-orm/pg-core";
-import { habitTypeEnum } from "./types";
+import { habitTypeEnum, goalTypeEnum } from "./types";
 
 export const users = pgTable(
   "users",
@@ -19,9 +19,11 @@ export const users = pgTable(
 
 export const habits = pgTable("habits", {
   id: serial("id").primaryKey(),
+  title: text("title").notNull(),
   userId: integer("user_id").notNull(),
   description: text("description"),
   habitType: habitTypeEnum("habit_type").notNull(),
+  goalType: goalTypeEnum("goal_type").notNull(),
   startDate: date("start_date").notNull(),
   targetDays: integer("target_days"),
   endDate: date("end_date"),

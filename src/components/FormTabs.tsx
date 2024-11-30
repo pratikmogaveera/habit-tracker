@@ -2,6 +2,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import NewUserForm from "./NewUserForm";
 import UsersList from "./UsersList";
 import NewHabitForm from "./NewHabitForm";
+import HabitsList from "./HabitsList";
 
 const FormTabs = () => {
   return (
@@ -21,6 +22,7 @@ const FormTabs = () => {
         </TabsContent>
         <TabsContent value="habit">
           <NewHabitForm />
+          <HabitsList />
         </TabsContent>
       </Tabs>
     </div>
